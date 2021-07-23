@@ -22,6 +22,14 @@ const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
         // 修改videoRef 的 currentTime，reducer的currentTime
     }
 
+    const handleForward = (val:number) => {
+        // 快进 val 秒
+    }
+
+    const handleReplay = (val:number) => {
+        // 倒退 val 秒
+    }
+
     const renderBtn = () => {
         if (state.status === VideoStatus.PLAYING) return <button onClick={handlePlay} className='mlz-controller-playing' />
         else return <button onClick={handlePuase} className='mlz-controller-paused'/>
@@ -33,6 +41,8 @@ const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
             onSeekingTime={handleSeekingTime} 
             onSeek={handleSeek}
             state={state} 
+            onForward={handleForward}
+            onReplay={handleReplay}
         />
     </div>
 }

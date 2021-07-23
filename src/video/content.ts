@@ -7,4 +7,9 @@ export const initialState:InitialStateProps = {
     isActive: true, // 是否显示控件
     isFullscreen: false, // 是否全屏
     duration:0, // 秒为单位的视频长度
+    buffered: {
+        length: 1,
+        start() {},
+        end() {}
+    }
 }

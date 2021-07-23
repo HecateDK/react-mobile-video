@@ -15,6 +15,7 @@ export interface InitialStateProps {
     isActive:boolean;
     isFullscreen:boolean;
     duration:number;
+    buffered: any;
 }
 
 export interface ActionProps {
@@ -34,11 +35,6 @@ export interface IVideoProps {
 export interface VideoRef {
     apiDoPlaying: (value: any) => void
 }
-
-export interface SliderRef {
-    apiGetClient: () => number | undefined;
-}
-
 export interface IPlayerProps extends IVideoProps {
     
 }
@@ -53,6 +49,8 @@ export interface ProgressProps {
     state: InitialStateProps;
     onSeekingTime: (newTime: number) => void;
     onSeek:(newTime: number) => void;
+    onForward:(val: number) => void;
+    onReplay:(val: number) => void;
 }
 export interface SliderProps {
     valuenow:number;

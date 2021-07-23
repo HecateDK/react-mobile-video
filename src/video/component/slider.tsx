@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef, Ref } from 'react';
+import React, { useState, useEffect, forwardRef, Ref } from 'react';
 import classNames from 'classnames';
 
-import { SliderProps, SliderRef } from '../type';
+import { SliderProps } from '../type';
 
 const Slider = forwardRef((
     { 
@@ -20,19 +20,9 @@ const Slider = forwardRef((
         onSliderInactive, 
         onClick,
       } : SliderProps,
-      ref: Ref<SliderRef>
+      ref: Ref<HTMLDivElement>
     ) => {
     const [ active, setActive ] = useState(false);
-    const sliderRef = useRef<HTMLDivElement>(null)
-
-    useImperativeHandle(ref, ()=>({
-        apiGetClient: () => {
-          if (sliderRef.current) {
-            const position = sliderRef.current?.getBoundingClientRect();
-            return position.left;
-          }
-        },
-    }));
 
     useEffect(() =>{
         return () => {
@@ -140,13 +130,13 @@ const Slider = forwardRef((
 
     return <div
             className={classNames(
-            {
-                'mlz-controller-slider-sliding': active
-            },
-                'mlz-controller-slider'
-            )}
+                {
+                    'mlz-controller-slider-sliding': active
+                },
+                    'mlz-controller-slider'
+                )}
             id='mlz-controller-slider'
-            ref={sliderRef}
+            ref={ref}
             role="slider"
             aria-label={'mlz-controller-slider'}
             onMouseDown={handleMouseDown}
