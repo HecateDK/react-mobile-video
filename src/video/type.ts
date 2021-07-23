@@ -1,4 +1,4 @@
-import { Ref } from "react";
+import { Ref } from 'react';
 
 // 播放器状态
 export enum VideoStatus {
@@ -14,6 +14,7 @@ export interface InitialStateProps {
     seekingTime: number;
     isActive:boolean;
     isFullscreen:boolean;
+    duration:number;
 }
 
 export interface ActionProps {
@@ -30,8 +31,12 @@ export interface IVideoProps {
     children?:any;
 }
 
-export interface VideoRef extends Ref {
+export interface VideoRef {
     apiDoPlaying: (value: any) => void
+}
+
+export interface SliderRef {
+    apiGetClient: () => number | undefined;
 }
 
 export interface IPlayerProps extends IVideoProps {
@@ -42,4 +47,26 @@ export interface ControllerProps {
     state: InitialStateProps;
     onPlay:() => void;
     onPuase:() => void;
+}
+
+export interface ProgressProps {
+    state: InitialStateProps;
+    onSeekingTime: (newTime: number) => void;
+    onSeek:(newTime: number) => void;
+}
+export interface SliderProps {
+    valuenow:number;
+    valuetext:string;
+    getPercent:() => number;
+    children: any;
+    onMouseMove: (event:any) => void;
+    onMouseDown?: (event:any) => void;
+    onMouseUp: (event:any) => void;
+    onSliderInactive?: (event:any) => void; 
+    onSliderActive?: (event:any) => void;
+    onStepForward:() => void;
+    onStepBack:() => void;
+    onFocus?: (event:any) => void;
+    onBlur?: (event:any) => void;
+    onClick?: (event:any) => void;
 }

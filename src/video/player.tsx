@@ -12,18 +12,17 @@ import './index.scss';
 
 const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
     const { ...rest } = props;
-    const videoRef = useRef(null);
+    const videoRef = useRef(null) as any;
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const { status, currentTime, seekingTime, isActive, isFullscreen } = state;
 
     const handlePlay = () => {
-        console.log('handlePlay', ref, videoRef)
         if (videoRef.current) {
             const promise = videoRef.current.apiDoPlaying();
             if (promise !== undefined) {
                 promise.catch(() => {
-
+                    dispatch({ type: 'handleError' })
                 }).then(() => {
                     dispatch({ type: 'handlePlaying' })
                 });
@@ -32,7 +31,10 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
     }
 
     const handlePause = () => {
-        dispatch({ type: 'handlePausing'})
+        if (videoRef.current) {
+            videoRef.current.apiDoPaused();
+            dispatch({ type: 'handlePausing' })
+        }
     }
     
     return <div id='mlz-palyer' className='mlz-palyer'>
@@ -43,6 +45,7 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
             state={state} 
             onPlay={handlePlay} 
             onPuase={handlePause} 
+            
         />
     </div>
 
