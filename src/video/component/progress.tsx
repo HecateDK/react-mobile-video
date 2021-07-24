@@ -172,7 +172,7 @@ const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward, o
     return (
         <div
           onMouseMove={handleMouseMoveThrottle}
-          className='mlz-controller-progress-control'
+          className='mlz-controller-progress'
         >
           <Slider 
             ref={sliderRef}

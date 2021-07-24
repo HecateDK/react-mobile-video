@@ -1,5 +1,3 @@
-import { Ref } from 'react';
-
 // 播放器状态
 export enum VideoStatus {
     WAITING = 'waiting',
@@ -30,13 +28,21 @@ export interface IVideoProps {
     preload?:string;
     // children?:HTMLSourceElement;
     children?:any;
+    status: VideoStatus;
+    onPlay:() => void;
+    onPuase:() => void;
 }
 
 export interface VideoRef {
     apiDoPlaying: (value: any) => void
 }
-export interface IPlayerProps extends IVideoProps {
-    
+export interface IPlayerProps {
+    poster:string; // 视频封面
+    src?:string; // 视频连接 有source则不需要
+    className?:string;
+    preload?:string;
+    // children?:HTMLSourceElement;
+    children?:any;
 }
 
 export interface ControllerProps {
@@ -67,4 +73,10 @@ export interface SliderProps {
     onFocus?: (event:any) => void;
     onBlur?: (event:any) => void;
     onClick?: (event:any) => void;
+}
+
+export interface BezelProps {
+    status: VideoStatus;
+    onPlay:() => void;
+    onPuase:() => void;
 }

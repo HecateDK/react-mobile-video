@@ -1,5 +1,5 @@
-import React, { forwardRef, useReducer, useRef } from 'react';
-import { IPlayerProps, VideoRef } from './type';
+import React, { forwardRef, useCallback, useEffect, useReducer, useRef } from 'react';
+import { IPlayerProps, VideoRef, VideoStatus } from './type';
 import { initialState } from './content';
 import { reducer } from './reducer';
 
@@ -18,6 +18,7 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
     const { status, currentTime, seekingTime, isActive, isFullscreen } = state;
 
     const handlePlay = () => {
+        console.log('handlePlay', videoRef.current)
         if (videoRef.current) {
             const promise = videoRef.current.apiDoPlaying();
             if (promise !== undefined) {
@@ -31,6 +32,7 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
     }
 
     const handlePause = () => {
+        console.log('handlePause', videoRef.current)
         if (videoRef.current) {
             videoRef.current.apiDoPaused();
             dispatch({ type: 'handlePausing' })
@@ -38,14 +40,23 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
     }
     
     return <div id='mlz-palyer' className='mlz-palyer'>
-        <Video ref={videoRef} {...rest} />
-        {/* <Loading /> 
-        <Bezel /> */}
+        <Video 
+            ref={videoRef} 
+            status={status}
+            onPlay={handlePlay}
+            onPuase={handlePause}
+            {...rest} 
+        />
+        {/* <Loading /> */}
+        <Bezel 
+            onPlay={handlePlay} 
+            onPuase={handlePause} 
+            status={status} 
+        /> 
         <Controller 
             state={state} 
             onPlay={handlePlay} 
             onPuase={handlePause} 
-            
         />
     </div>
 

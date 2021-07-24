@@ -4,8 +4,8 @@
     background: none;
     border: none;
     overflow: visible;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 22px;
+    height: 22px;
     color: #D8D8D8;
 }
 
@@ -18,6 +18,34 @@
     // height: 100%;
     flex: none;
 }
+
+@keyframes video-react-bezel-fadeout {
+    0% {
+      opacity: 1
+    }
+  
+    to {
+      opacity: 0;
+      transform: scale(2)
+    }
+  }
+  
+  @keyframes video-react-bezel-fadeout-alt {
+    0% {
+      opacity: 1
+    }
+  
+    to {
+      opacity: 0;
+      transform: scale(2)
+    }
+  }
+
+
+
+
+
+
 
 .mlz-palyer {
     width: 100%;
@@ -33,17 +61,23 @@
 }
 
 .mlz-video {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
 }
 
 .mlz-controller {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
     position: absolute;
     bottom: 0;
     left: 0;
-    display: flex;
     width: 100%;
-    padding: 1.2rem 1rem 0.8rem 1rem;
+    padding: 28px 20px 17px 16px;
+    transition: visibility 0.1s, opacity 0.1s;
     background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
 
     .mlz-controller-playing {
@@ -57,6 +91,107 @@
 
         background-image: url('./assets/paused.svg')
     }
+
+    .mlz-controller-progress {
+        display: flex;
+        align-items: center;
+        outline: none;
+        position: relative;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        height: auto;
+        width: calc(100% - 24px - 16px - 16px - 70px - 16px);
+
+        .mlz-controller-slider {
+            flex: auto;
+            transition: all 0.2s;
+            height: 4px;
+            outline: 0;
+            position: relative;
+            cursor: pointer;
+            padding: 0;
+            margin: 0 16px 0 16px;
+            background-color: rgba(115, 133, 159, 0.5);
+        }
+
+        .mlz-controller-load-progress {
+            position: absolute;
+            display: block;
+            height: 4px;
+            margin: 0;
+            padding: 0;
+            width: 0;
+            left: 0;
+            top: 0;
+            background: rgba(115, 133, 159, 0.5);
+
+            div {
+                position: absolute;
+                display: block;
+                height: 4px;
+                margin: 0;
+                padding: 0;
+                width: 0;
+                left: 0;
+                top: 0;
+                background: rgba(115, 133, 159, 0.75);
+            }
+        }
+
+        .mlz-controller-control-text {
+            border: 0;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        .mlz-controller-play-progress-bar {
+            position: absolute;
+            display: block;
+            height: 4px;
+            margin: 0;
+            padding: 0;
+            width: 0;
+            left: 0;
+            top: 0;
+            background-color: #fff;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+
+            &::before, &::after {
+                z-index: 1;
+            }
+
+            &::before {
+                position: absolute;
+                top: -0.333333333333333em;
+                right: -4px;
+                font-size: 10px;
+                background-image: url('./assets/point.svg');
+            }
+
+            &::after {
+                visibility: hidden;
+                pointer-events: none;
+                position: absolute;
+                bottom: 113px;
+                right: 112px;
+                font-size: 10px;
+                color: #000;
+                content: attr(data-current-time);
+                padding: 6px 8px 8px 8px;
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 8px;
+            }
+        }
+    }
+    
 }
 
 .mlz-loading {
@@ -70,22 +205,44 @@
     border: 6px solid rgba(43, 51, 63, 0.7);
     box-sizing: border-box;
     background-clip: padding-box;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
+    width: 114px;
+    height: 96px;
+    border-radius: 8px;
 }
 
 .mlz-bezel {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     z-index: 17;
     margin-left: -26px;
     margin-top: -26px;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 26px;
-    animation: video-react-bezel-fadeout .5s linear 1 normal forwards;
-    pointer-events: none;
+    border-radius: 56px;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+
+    &.mlz-bezel-animation {
+        animation: video-react-bezel-fadeout .5s linear 1 normal forwards;
+        pointer-events: none;
+      }
+    
+      &.mlz-bezel-animation-alt {
+        animation: video-react-bezel-fadeout-alt .5s linear 1 normal forwards;
+        pointer-events: none;
+      }
+    
+      .mlz-bezel-icon {
+        width: 36px;
+        height: 36px;
+        // margin: 8px;
+        font-size: 26px;
+        line-height: 36px;
+        text-align: center;
+        -webkit-font-smoothing: antialiased;
+        background-image: url('./assets/playing.svg');
+      }
 }

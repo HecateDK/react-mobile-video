@@ -1,10 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useRef, ForwardedRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, ForwardedRef, useEffect, useCallback } from 'react';
 import classNames from 'classnames'
-import { IVideoProps, VideoRef } from '../type';
+import { IVideoProps, VideoRef, VideoStatus } from '../type';
 import '../index.scss';
 
 const Video = forwardRef<VideoRef | ForwardedRef<HTMLVideoElement>, IVideoProps>((props, ref) => {
-  const { className, preload='metadata', poster, src, children, ...rest } = props;
+  const { className, preload='metadata', poster, src, children, status, onPlay, onPuase, ...rest } = props;
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const renderChildren = () => {
@@ -24,6 +24,23 @@ const Video = forwardRef<VideoRef | ForwardedRef<HTMLVideoElement>, IVideoProps>
         }
       },
   }));
+
+  const handlePlayerClick = useCallback(() => {
+    console.log('handlePlayerClick', status);
+
+    status === VideoStatus.PLAYING ? onPlay() : onPuase();
+  }, [])
+
+  useEffect(() =>{
+    // 监听 Bezel
+    window.addEventListener('click', handlePlayerClick, false);
+    window.addEventListener('touch', handlePlayerClick, false);
+
+    return () => {
+      window.removeEventListener('click', handlePlayerClick);
+      window.removeEventListener('touch', handlePlayerClick)
+    }
+  }, [])
 
   return (
       <video
