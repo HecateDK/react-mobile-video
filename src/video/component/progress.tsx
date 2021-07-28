@@ -111,7 +111,7 @@ const PlayProgressBar:FC<PlayProgressBarProps> = ({time, duration, percentage}) 
   );
 }
 
-const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward, onReplay }) => {
+const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const { duration, buffered, seekingTime, currentTime } = state;
@@ -168,7 +168,7 @@ const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward, o
     }
 
     const handleStepBack = () => {
-      onReplay && onReplay(5)
+      onForward && onForward(-5)
     }
 
     return (

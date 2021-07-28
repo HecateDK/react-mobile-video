@@ -54,6 +54,9 @@ export interface ControllerProps {
     state: InitialStateProps;
     onPlay:() => void;
     onPuase:() => void;
+    onSeekingTime: (newTime: number) => void;
+    onSeek:(newTime: number) => void;
+    onForward:(val: number) => void;
 }
 
 export interface ProgressProps {
@@ -61,7 +64,6 @@ export interface ProgressProps {
     onSeekingTime: (newTime: number) => void;
     onSeek:(newTime: number) => void;
     onForward:(val: number) => void;
-    onReplay:(val: number) => void;
 }
 export interface SliderProps {
     valuenow:string;

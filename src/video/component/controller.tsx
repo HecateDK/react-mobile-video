@@ -6,7 +6,7 @@ import Timer from './timer';
 
 import { ControllerProps, VideoStatus } from '../type';
 
-const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
+const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase, onSeekingTime, onSeek, onForward }) => {
     const handlePlay = () => {
         onPlay && onPlay();
     }
@@ -17,23 +17,22 @@ const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
 
     const handleSeekingTime = (newTime: number) => {
         // 修改reducer里的seekingTime
+        onSeekingTime && onSeekingTime(newTime);
     }
 
     const handleSeek = (newTime: number) => {
         // 修改videoRef 的 currentTime，reducer的currentTime
+        onSeek && onSeek(newTime);
     }
 
     const handleForward = (val:number) => {
         // 快进 val 秒
-    }
-
-    const handleReplay = (val:number) => {
-        // 倒退 val 秒
+        onForward && onForward(val);
     }
 
     const renderBtn = () => {
-        if (state.status === VideoStatus.PLAYING) return <button onClick={handlePlay} className='mlz-controller-playing' />
-        else return <button onClick={handlePuase} className='mlz-controller-paused'/>
+        if (state.status === VideoStatus.PLAYING) return <button onClick={handlePuase} className='mlz-controller-paused' />
+        else return <button onClick={handlePlay} className='mlz-controller-playing'/>
     }
 
     return <div id='mlz-controller' className="mlz-controller">
@@ -43,7 +42,6 @@ const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
             onSeek={handleSeek}
             state={state} 
             onForward={handleForward}
-            onReplay={handleReplay}
         />
         <Timer state={state} />
     </div>

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .mlz-controller-btn {
     flex: none;
     cursor: pointer;
@@ -70,7 +74,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 28px 20px 17px 16px;
+    padding: 28px 0 17px 16px;
     transition: visibility 0.1s, opacity 0.1s;
     background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
 
@@ -96,7 +100,7 @@
         padding: 0;
         height: 2px;
         border-radius: 2px;
-        width: calc(100% - 24px - 16px - 16px - 70px - 16px);
+        width: calc(100% - 24px - 16px - 16px - 70px - 16px - 61px);
 
         .mlz-controller-slider {
             flex: auto;

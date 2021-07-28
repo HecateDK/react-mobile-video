@@ -36,11 +36,9 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
         }
       }, []);
 
-    const handlePlayerClick = useCallback(() => {
-        console.log('handlePlayerClick', status);
-    
-        status === VideoStatus.PLAYING ? handlePlay() : handlePause();
-    }, [])
+    const handlePlayerClick = useCallback(() => {    
+        state.status === VideoStatus.PLAYING ? handlePause() : handlePlay();
+    }, [state.status])
 
     useEffect(() =>{
         // 监听 Bezel
@@ -51,10 +49,9 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
             document.removeEventListener('click', handlePlayerClick);
             document.removeEventListener('touch', handlePlayerClick)
         }
-      }, [])
+      }, [state.status])
 
-    const handlePlay = () => {
-        console.log('handlePlay', status)
+    const handlePlay = useCallback(() => {
         if (videoRef.current) {
             const promise = videoRef.current.play();
             if (promise !== undefined) {
@@ -65,15 +62,14 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
                 });
             }
         }
-    }
+    }, [state.status])
 
-    const handlePause = () => {
-        console.log('handlePause', status)
+    const handlePause = useCallback(() => {
         if (videoRef.current) {
             videoRef.current.pause();
             dispatch({ type: 'handlePausing' })
         }
-    }
+    }, [state.status])
 
     const renderChildren = () => {
         if (children) return children
@@ -85,6 +81,25 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
             const duration = videoRef.current.duration;
             dispatch({ type: 'modify', payload: { duration: duration } });
         }
+    }
+
+    const handleSeekingTime = (newTime: number) => {
+        // 修改reducer里的seekingTime
+        dispatch({ type: 'modify', payload: { seekingTime: newTime } });
+    }
+
+    const handleSeek = (newTime: number) => {
+        // 修改videoRef 的 currentTime，reducer的currentTime
+        if (videoRef.current) {
+            videoRef.current.currentTime = newTime;
+            dispatch({ type: 'modify', payload: { currentTime: newTime } });
+        }
+    }
+
+    const handleForward = (val:number) => {
+        // 快进 val 秒
+        handleSeek(currentTime + val)
+        // dispatch({ type: 'modify', payload: { currentTime: currentTime + val } });
     }
 
     return <div id='mlz-palyer' className='mlz-palyer'>
@@ -110,7 +125,10 @@ const Player = forwardRef<VideoRef, IPlayerProps>((props, ref) =>{
             status={status} 
         /> 
         <Controller 
+            onSeekingTime={handleSeekingTime} 
+            onSeek={handleSeek}
             state={state} 
+            onForward={handleForward}
             onPlay={handlePlay} 
             onPuase={handlePause} 
         />
