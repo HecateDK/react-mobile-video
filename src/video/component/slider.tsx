@@ -26,11 +26,11 @@ const Slider = forwardRef((
 
     useEffect(() =>{
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove, true);
-            window.removeEventListener('mouseup', handleMouseUp, true);
-            window.removeEventListener('touchmove', handleMouseMove, true);
-            window.removeEventListener('touchend', handleMouseUp, true);
-            window.removeEventListener('keydown', handleKeyPress, true);
+            document.removeEventListener('mousemove', handleMouseMove, true);
+            document.removeEventListener('mouseup', handleMouseUp, true);
+            document.removeEventListener('touchmove', handleMouseMove, true);
+            document.removeEventListener('touchend', handleMouseUp, true);
+            document.removeEventListener('keydown', handleKeyPress, true);
         }
     }, [])
 
@@ -43,10 +43,10 @@ const Slider = forwardRef((
     const handleMouseUp= (event:any) => {
         event.preventDefault();
 
-        window.removeEventListener('mousemove', handleMouseMove, true);
-        window.removeEventListener('mouseup', handleMouseUp, true);
-        window.removeEventListener('touchmove', handleMouseMove, true);
-        window.removeEventListener('touchend', handleMouseUp, true);
+        document.removeEventListener('mousemove', handleMouseMove, true);
+        document.removeEventListener('mouseup', handleMouseUp, true);
+        document.removeEventListener('touchmove', handleMouseMove, true);
+        document.removeEventListener('touchend', handleMouseUp, true);
 
         setActive(false);
 
@@ -59,10 +59,10 @@ const Slider = forwardRef((
         // event.preventDefault();
         // event.stopPropagation();
 
-        window.addEventListener('mousemove', handleMouseMove, true);
-        window.addEventListener('mouseup', handleMouseUp, true);
-        window.addEventListener('touchmove', handleMouseMove, true);
-        window.addEventListener('touchend', handleMouseUp, true);
+        document.addEventListener('mousemove', handleMouseMove, true);
+        document.addEventListener('mouseup', handleMouseUp, true);
+        document.addEventListener('touchmove', handleMouseMove, true);
+        document.addEventListener('touchend', handleMouseUp, true);
 
         setActive(true);
 
@@ -91,7 +91,7 @@ const Slider = forwardRef((
     }
 
     const handleFocus= (event:any)=> {
-        window.addEventListener('keydown', handleKeyPress, true);
+        document.addEventListener('keydown', handleKeyPress, true);
         onFocus && onFocus(event)
     }
 
@@ -118,6 +118,7 @@ const Slider = forwardRef((
 
     const renderChildren = () => {
         let progress = getPercent() || 0;
+
         if (typeof progress !== 'number' || progress < 0 || progress === Infinity) {
             progress = 0;
         }
@@ -144,7 +145,7 @@ const Slider = forwardRef((
             onFocus={handleFocus}
             onBlur={handleBlur}
             onClick={handleClick}
-            aria-valuenow={valuenow || 0}
+            aria-valuenow={+valuenow || 0}
             aria-valuetext={valuetext || ''}
             aria-valuemin={0}
             aria-valuemax={100}

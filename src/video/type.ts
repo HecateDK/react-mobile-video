@@ -1,3 +1,5 @@
+import { SyntheticEvent } from 'react';
+
 // 播放器状态
 export enum VideoStatus {
     WAITING = 'waiting',
@@ -5,6 +7,8 @@ export enum VideoStatus {
     ERROR = 'error',
     PAUSED = 'paused',
 }
+
+type fun = (e:SyntheticEvent) => void;
 
 export interface InitialStateProps {
     status: VideoStatus;
@@ -43,6 +47,7 @@ export interface IPlayerProps {
     preload?:string;
     // children?:HTMLSourceElement;
     children?:any;
+    onDurationchange?:fun
 }
 
 export interface ControllerProps {
@@ -59,7 +64,7 @@ export interface ProgressProps {
     onReplay:(val: number) => void;
 }
 export interface SliderProps {
-    valuenow:number;
+    valuenow:string;
     valuetext:string;
     getPercent:() => number;
     children: any;

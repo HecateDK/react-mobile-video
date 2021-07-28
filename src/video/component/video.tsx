@@ -23,22 +23,23 @@ const Video = forwardRef<VideoRef | ForwardedRef<HTMLVideoElement>, IVideoProps>
           return videoRef.current.pause()
         }
       },
+      apiGetVideoRef: () => {
+        return videoRef;
+      }
   }));
 
   const handlePlayerClick = useCallback(() => {
-    console.log('handlePlayerClick', status);
-
     status === VideoStatus.PLAYING ? onPlay() : onPuase();
   }, [])
 
   useEffect(() =>{
     // 监听 Bezel
-    window.addEventListener('click', handlePlayerClick, false);
-    window.addEventListener('touch', handlePlayerClick, false);
+    document.addEventListener('click', handlePlayerClick);
+    document.addEventListener('touch', handlePlayerClick);
 
     return () => {
-      window.removeEventListener('click', handlePlayerClick);
-      window.removeEventListener('touch', handlePlayerClick)
+      document.removeEventListener('click', handlePlayerClick);
+      document.removeEventListener('touch', handlePlayerClick)
     }
   }, [])
 

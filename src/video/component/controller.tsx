@@ -2,16 +2,17 @@ import React, { FC } from 'react';
 import '../index.scss';
 
 import Progress from './progress';
+import Timer from './timer';
 
 import { ControllerProps, VideoStatus } from '../type';
 
 const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
     const handlePlay = () => {
-        onPlay();
+        onPlay && onPlay();
     }
 
     const handlePuase = () => {
-        onPuase();
+        onPuase && onPuase();
     }
 
     const handleSeekingTime = (newTime: number) => {
@@ -44,6 +45,7 @@ const Controller: FC<ControllerProps> = ({ state, onPlay, onPuase }) => {
             onForward={handleForward}
             onReplay={handleReplay}
         />
+        <Timer state={state} />
     </div>
 }
 

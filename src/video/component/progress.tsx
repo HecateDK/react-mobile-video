@@ -23,6 +23,7 @@ interface MouseTimeDisplayProps {
 interface PlayProgressBarProps {
   time: number;
   duration:number;
+  percentage?:string;
 }
 
 const LoadProgressBar:FC<LoadProgressBarProps> = ({buffered, duration}) => {
@@ -94,15 +95,18 @@ const MouseTimeDisplay:FC<MouseTimeDisplayProps> = ({ mouseTime, duration }) => 
   );
 }
 
-const PlayProgressBar:FC<PlayProgressBarProps> = ({time, duration}) => {
+const PlayProgressBar:FC<PlayProgressBarProps> = ({time, duration, percentage}) => {
   return (
     <div
       data-current-time={formatTime(time, duration)}
       className='mlz-controller-play-progress-bar'
+      style={{
+        width: percentage
+      }}
     >
-      {/* <span className="video-react-control-text">
+      <span className="mlz-controller-control-text">
         {`Progress`}
-      </span> */}
+      </span>
     </div>
   );
 }
@@ -111,6 +115,7 @@ const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward, o
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const { duration, buffered, seekingTime, currentTime } = state;
+  const time = seekingTime || currentTime;
 
   const [ mouseTime, setMouseTime ] = useState<ProgressStateProps>({
     time: null,
@@ -133,15 +138,12 @@ const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward, o
     }
 
     const getPercent = () => {
-        const { currentTime, seekingTime, duration } = state;
-        const time = seekingTime || currentTime;
         const percent = time / duration;
         return percent >= 1 ? 1 : percent;
     }
 
     const getNewTime = (event:any) => {
       if (sliderRef.current) {
-        const { duration } = state;
         const distance = getPointerPosition(sliderRef.current, event).x;
         const newTime = distance * duration;
 
@@ -177,8 +179,8 @@ const Progress:FC<ProgressProps> = ({ state, onSeekingTime, onSeek, onForward, o
           <Slider 
             ref={sliderRef}
             getPercent={getPercent} 
-            valuenow={0} 
-            valuetext=''
+            valuenow={(getPercent() * 100).toFixed(2)}
+            valuetext={formatTime(time, duration)}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onStepForward={handleStepForward}

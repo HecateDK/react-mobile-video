@@ -1,6 +1,6 @@
-import { InitialStateProps, VideoStatus, ActionProps } from './type';
+import { InitialStateProps, VideoStatus } from './type';
 
-export function reducer(state: InitialStateProps, action:ActionProps):InitialStateProps {
+export function reducer(state: InitialStateProps, action:any):InitialStateProps {
     switch (action.type) {
       case 'handlePlaying':
         return {...state, status: VideoStatus.PAUSED};
@@ -8,6 +8,8 @@ export function reducer(state: InitialStateProps, action:ActionProps):InitialSta
         return {...state, status: VideoStatus.PLAYING};
       case 'handleError':
         return {...state, status: VideoStatus.WAITING};
+      case 'modify':
+          return { ...state, ...action.payload };
       default:
         throw new Error();
     }

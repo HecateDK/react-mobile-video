@@ -40,13 +40,6 @@
       transform: scale(2)
     }
   }
-
-
-
-
-
-
-
 .mlz-palyer {
     width: 100%;
     height: 100%;
@@ -70,6 +63,7 @@
 
 .mlz-controller {
     display: flex;
+    align-items: center;
     visibility: visible;
     opacity: 1;
     position: absolute;
@@ -100,42 +94,44 @@
         text-align: center;
         margin: 0;
         padding: 0;
-        height: auto;
+        height: 2px;
+        border-radius: 2px;
         width: calc(100% - 24px - 16px - 16px - 70px - 16px);
 
         .mlz-controller-slider {
             flex: auto;
             transition: all 0.2s;
-            height: 4px;
+            height: 2px;
             outline: 0;
             position: relative;
             cursor: pointer;
             padding: 0;
+            border-radius: 2px;
             margin: 0 16px 0 16px;
-            background-color: rgba(115, 133, 159, 0.5);
+            background-color: rgba(255, 255, 255, 0.5);
         }
 
         .mlz-controller-load-progress {
             position: absolute;
             display: block;
-            height: 4px;
+            height: 2px;
             margin: 0;
             padding: 0;
             width: 0;
             left: 0;
             top: 0;
-            background: rgba(115, 133, 159, 0.5);
+            background: rgba(255, 255, 255, 0.5);
 
             div {
                 position: absolute;
                 display: block;
-                height: 4px;
+                height: 2px;
                 margin: 0;
                 padding: 0;
                 width: 0;
                 left: 0;
                 top: 0;
-                background: rgba(115, 133, 159, 0.75);
+                background: #fff;
             }
         }
 
@@ -153,13 +149,13 @@
         .mlz-controller-play-progress-bar {
             position: absolute;
             display: block;
-            height: 4px;
+            height: 2px;
             margin: 0;
             padding: 0;
             width: 0;
             left: 0;
             top: 0;
-            background-color: #fff;
+            background-color: #EB4534;;
             text-transform: none;
             line-height: 1;
             -webkit-font-smoothing: antialiased;
@@ -169,11 +165,14 @@
             }
 
             &::before {
+                content: '●';
+                display: block;
                 position: absolute;
-                top: -0.333333333333333em;
-                right: -4px;
-                font-size: 10px;
-                background-image: url('./assets/point.svg');
+                top: -5.5px;
+                right: -5px;
+                width: 12px;
+                height: 12px;
+                font-size: 12px;
             }
 
             &::after {
@@ -192,6 +191,11 @@
         }
     }
     
+    .mlz-controller-timer {
+        font-size: 12px;
+        line-height: 16px;
+        color: #fff;
+    }
 }
 
 .mlz-loading {
